@@ -37,7 +37,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ topics, publications, selected
 
       <div className="flex-1">
         <Tabs defaultValue="photos" className="h-full">
-          <TabsList className="grid w-full grid-cols-3 bg-[#8b4513] mx-4 mt-4">
+          <TabsList className="grid w-full grid-cols-3 bg-[#8b4513] mt-4">
             <TabsTrigger
               value="photos"
               className="text-[#f5f5f0] data-[state=active]:bg-[#f5f5f0] data-[state=active]:text-[#4a2c2a] text-xs"
