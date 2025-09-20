@@ -139,7 +139,7 @@ button.selected,
 
 /* Left sidebar - 300px width */
 .left-sidebar {
-  width: 300px;
+  width: 400px;
   height: 100%;
   background: #4a2c2a;
   border-right: 2px solid #e8ddd4;
@@ -318,7 +318,7 @@ button.selected,
 /* Responsive design for 3-division layout */
 @media (max-width: 1024px) {
   .left-sidebar {
-    width: 250px;
+    width: 320px;
   }
 
   .bottom-panel {
@@ -377,7 +377,7 @@ button.selected,
 
 @media (max-width: 480px) {
   .left-sidebar {
-    height: 120px;
+    height: 140px;
   }
 
   .bottom-panel {
