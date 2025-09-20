@@ -137,6 +137,10 @@ button.selected,
   overflow: hidden;
 }
 
+html, body, #root, .app-container, .main-content, .map-area, .map-container {
+  height: 100% !important;
+}
+
 /* Left sidebar - 300px width */
 .left-sidebar {
   width: 400px;
@@ -491,4 +495,76 @@ button:active:not(:disabled),
 .map-overlay,
 .flex.gap-2[role="tablist"] {
   color: #f5f5f0;
+}
+.map-container .leaflet-control-zoom {
+  border-radius: 8px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  background-color: #f5f5f0 !important;
+  border: 2px solid #e8ddd4 !important;
+}
+
+.map-container .leaflet-control-zoom a {
+  color: #4a2c2a !important;
+  background-color: #f5f5f0 !important;
+  border: none !important;
+  font-weight: bold !important;
+}
+
+.map-container .leaflet-control-zoom a:hover {
+  background-color: #e8ddd4 !important;
+  color: #4a2c2a !important;
+}
+
+.map-container .leaflet-control-attribution {
+  background-color: rgba(245, 245, 240, 0.9) !important;
+  color: #4a2c2a !important;
+  font-size: 10px !important;
+  border-radius: 4px !important;
+}
+
+.map-container .leaflet-marker-icon {
+  transition: transform 0.2s ease !important;
+}
+
+.map-container .leaflet-marker-icon:hover {
+  transform: scale(1.1) !important;
+}
+.map-container .leaflet-popup-content-wrapper {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 13px !important;
+  line-height: 1.4 !important;
+}
+
+.map-container .leaflet-popup-content {
+  margin: 8px 12px !important;
+}
+
+.map-container .leaflet-popup-tip {
+  background-color: #f5f5f0 !important;
+  border: 2px solid #e8ddd4 !important;
+  border-bottom: none !important;
+  border-right: none !important;
+}
+
+.map-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-color: #4a2c2a;
+  color: #f5f5f0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.map-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-color: #4a2c2a;
+  color: #f5f5f0;
+  padding: 20px;
+  text-align: center;
 }
