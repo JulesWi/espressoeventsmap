@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useEffect } from "react"
 import {
@@ -65,7 +65,8 @@ interface AddEventFormData {
   status: "upcoming" | "ongoing" | "ended"
   topic: string
   publicationLink: string
-}
+  photo?: string
+}</parameter
 
 interface GeocodingResult {
   display_name: string
@@ -91,9 +92,9 @@ interface Topic {
 
 const createCoffeeIcon = (status: string) => {
   const icons = {
-    upcoming: '/2139cfd7-8158-41a1-9e56-24e91f29b6d6/Upcoming+Event.png',
-    ongoing: '/437403cf-b427-4070-bac2-ea1f4820271f/Ongoing+Event.png',
-    ended: '/32c0c727-08b6-44f6-90b9-d800f97eb302/Ended+Event.png',
+    upcoming: '/espresso-events-map-final/2139cfd7-8158-41a1-9e56-24e91f29b6d6/Upcoming+Event.png',
+    ongoing: '/espresso-events-map-final/437403cf-b427-4070-bac2-ea1f4820271f/Ongoing+Event.png',
+    ended: '/espresso-events-map-final/32c0c727-08b6-44f6-90b9-d800f97eb302/Ended+Event.png',
   };
   return new L.Icon({
     iconUrl: icons[status as keyof typeof icons] || icons.ended,
@@ -758,13 +759,13 @@ function App() {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "upcoming":
-        return <img src="/2139cfd7-8158-41a1-9e56-24e91f29b6d6/Upcoming+Event.png" alt="Upcoming" className="w-4 h-4" />
+        return <img src="/espresso-events-map-final/2139cfd7-8158-41a1-9e56-24e91f29b6d6/Upcoming+Event.png" alt="Upcoming" className="w-4 h-4" />
       case "ongoing":
-        return <img src="/437403cf-b427-4070-bac2-ea1f4820271f/Ongoing+Event.png" alt="Ongoing" className="w-4 h-4" />
+        return <img src="/espresso-events-map-final/437403cf-b427-4070-bac2-ea1f4820271f/Ongoing+Event.png" alt="Ongoing" className="w-4 h-4" />
       case "ended":
-        return <img src="/32c0c727-08b6-44f6-90b9-d800f97eb302/Ended+Event.png" alt="Ended" className="w-4 h-4" />
+        return <img src="/espresso-events-map-final/32c0c727-08b6-44f6-90b9-d800f97eb302/Ended+Event.png" alt="Ended" className="w-4 h-4" />
       default:
-        return <img src="/437403cf-b427-4070-bac2-ea1f4820271f/Ongoing+Event.png" alt="Ongoing" className="w-4 h-4" />
+        return <img src="/espresso-events-map-final/437403cf-b427-4070-bac2-ea1f4820271f/Ongoing+Event.png" alt="Ongoing" className="w-4 h-4" />
     }
   }
 
@@ -816,7 +817,7 @@ function App() {
                     {/* Location Suggestions */}
                     {showSuggestions && searchSuggestions.length > 0 && (
                       <div className="max-h-32 overflow-y-auto border border-[#eacaae] rounded-md bg-[#f5f5f0]">
-                        <div className="px-3 py-2 text-xs font-medium text-[#421f17] bg-[#fbeee4]">🏠 Places</div>
+                        <div className="px-3 py-2 text-xs font-medium text-[#421f17] bg-[#fbeee4]">ðŸ  Places</div>
                         {searchSuggestions.slice(0, 3).map((suggestion, index) => (
                           <div
                             key={`location-${index}`}
@@ -837,7 +838,7 @@ function App() {
                     {/* Event Results */}
                     {eventSearchResults.length > 0 && (
                       <div className="max-h-32 overflow-y-auto border border-[#eacaae] rounded-md bg-[#f5f5f0]">
-                        <div className="px-3 py-2 text-xs font-medium text-[#421f17] bg-[#fbeee4]">🎯 Events ({eventSearchResults.length})</div>
+                        <div className="px-3 py-2 text-xs font-medium text-[#421f17] bg-[#fbeee4]">ðŸŽ¯ Events ({eventSearchResults.length})</div>
                         {eventSearchResults.slice(0, 3).map((event) => (
                           <div
                             key={`event-${event.id}`}
@@ -937,15 +938,15 @@ function App() {
         <h3 className="text-sm font-semibold text-[#421f17] mb-3">Event Status</h3>
         <div className="space-y-2 text-xs">
           <div className="flex items-center gap-3">
-            <img src="/2139cfd7-8158-41a1-9e56-24e91f29b6d6/Upcoming+Event.png" alt="Upcoming" className="w-7 h-7" />
+            <img src="/espresso-events-map-final/2139cfd7-8158-41a1-9e56-24e91f29b6d6/Upcoming+Event.png" alt="Upcoming" className="w-7 h-7" />
             <span className="text-[#421f17] font-medium">Upcoming</span>
           </div>
           <div className="flex items-center gap-3">
-            <img src="/437403cf-b427-4070-bac2-ea1f4820271f/Ongoing+Event.png" alt="Ongoing" className="w-7 h-7" />
+            <img src="/espresso-events-map-final/437403cf-b427-4070-bac2-ea1f4820271f/Ongoing+Event.png" alt="Ongoing" className="w-7 h-7" />
             <span className="text-[#421f17] font-medium">Ongoing</span>
           </div>
           <div className="flex items-center gap-3">
-            <img src="/32c0c727-08b6-44f6-90b9-d800f97eb302/Ended+Event.png" alt="Ended" className="w-7 h-7" />
+            <img src="/espresso-events-map-final/32c0c727-08b6-44f6-90b9-d800f97eb302/Ended+Event.png" alt="Ended" className="w-7 h-7" />
             <span className="text-[#421f17] font-medium">Ended</span>
           </div>
         </div>
@@ -996,9 +997,9 @@ function App() {
             </Marker>
           ))}
         </MapContainer>
-        {/* Bande ombrée transparente en bas de la carte */}
+        {/* Bande ombrÃ©e transparente en bas de la carte */}
         <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-black/30 to-transparent pointer-events-none z-[5]"></div>
-        {/* Logo Espresso dans le coin inférieur gauche */}
+        {/* Logo Espresso dans le coin infÃ©rieur gauche */}
         <div className="absolute bottom-4 left-4 z-[10]">
           <img 
             src="/177dfa6e-81d8-462a-93e1-59040f268c80/Logo+Espresso.png" 
@@ -1012,3 +1013,4 @@ function App() {
 }
 
 export default App
+
