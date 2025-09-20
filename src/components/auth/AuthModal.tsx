@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
@@ -109,7 +109,7 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: AuthModal
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className='bg-[#4a2c2a] border-[#f5f1eb] focus:ring-[#f5f1eb] text-[#f5f1eb]'
-              placeholder='••••••••'
+              placeholder=''
               required
             />
           </div>
