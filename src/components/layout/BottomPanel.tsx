@@ -32,7 +32,7 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({ events, onEventSelect,
   }
 
   return (
-    <div className="h-full bg-[#4a2c2a] overflow-y-auto">
+    <div className="h-full bg-[#4a2c2a] flex flex-col">
       <div className="p-4 border-b border-[#e8ddd4]">
         <h2 className="text-lg font-bold text-[#f5f5f0] flex items-center gap-2">
           <Calendar className="w-5 h-5 text-[#f5f5f0]" />
