@@ -1,0 +1,126 @@
+@import "leaflet/dist/leaflet.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Added Leaflet CSS imports for proper map styling */
+
+@layer base {
+  :root {
+    --background: 21 45% 18%; /* #421f17 */
+    --foreground: 24 66% 93%; /* #fbeee4 */
+    --card: 30 52% 83%;      /* #eacaae */
+    --card-foreground: 21 45% 18%; /* #421f17 */
+    --popover: 30 52% 83%;   /* #eacaae */
+    --popover-foreground: 21 45% 18%; /* #421f17 */
+    --primary: 30 52% 83%;   /* #eacaae */
+    --primary-foreground: 21 45% 18%; /* #421f17 */
+    --secondary: 30 89% 96%; /* #fbeee4 */
+    --secondary-foreground: 21 45% 18%; /* #421f17 */
+    --muted: 30 89% 96%;     /* #fbeee4 */
+    --muted-foreground: 21 45% 18%; /* #421f17 */
+    --accent: 30 52% 83%;    /* #eacaae */
+    --accent-foreground: 21 45% 18%; /* #421f17 */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 30 89% 96%; /* #fbeee4 */
+    --border: 30 52% 83%;    /* #eacaae */
+    --input: 21 45% 18%;     /* #421f17 */
+    --input-foreground: 24 66% 93%; /* #fbeee4 */
+    --input-border: 30 52% 83%; /* #eacaae */
+    --input-placeholder: 30 52% 83%; /* #eacaae */
+    --ring: 21 45% 18%;      /* #421f17 */
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+    --sidebar-background: 21 45% 18%; /* #421f17 */
+    --sidebar-foreground: 30 89% 96%; /* #fbeee4 */
+    --sidebar-primary: 30 52% 83%;    /* #eacaae */
+    --sidebar-primary-foreground: 21 45% 18%; /* #421f17 */
+    --sidebar-accent: 30 52% 83%;     /* #eacaae */
+    --sidebar-accent-foreground: 21 45% 18%; /* #421f17 */
+    --sidebar-border: 30 52% 83%;     /* #eacaae */
+    --sidebar-ring: 21 45% 18%;       /* #421f17 */
+    --search-bg: 30 89% 96%; /* #fbeee4 */
+    --search-border: 30 52% 83%; /* #eacaae */
+    --search-text: 21 45% 18%; /* #421f17 */
+    --search-placeholder: 30 52% 83%; /* #eacaae */
+    --basemap-menu-bg: 21 45% 18%; /* #421f17 */
+    --basemap-menu-border: 30 52% 83%; /* #eacaae */
+    --basemap-menu-hover: 30 52% 83%; /* #eacaae */
+    --basemap-menu-text: 30 89% 96%; /* #fbeee4 */
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Fix Leaflet marker icons */
+.leaflet-default-icon-path {
+  background-image: url("https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png");
+}
+
+/* Corrections conflits Tailwind/CSS custom */
+.bottom-panel {
+  height: 320px !important;
+}
+
+.events-section, .publications-section {
+  width: 50% !important;
+  flex: none !important;
+}
+
+@media (max-width: 768px) {
+  .events-section, .publications-section {
+    width: 100% !important;
+  }
+}
+
+/* Force dialog au-dessus de tout */
+[role="dialog"] {
+  z-index: 10000 !important;
+}
