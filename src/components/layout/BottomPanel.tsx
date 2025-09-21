@@ -57,8 +57,8 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({ events, onEventSelect,
                   >
                     <div className="flex items-start justify-between mb-2">
                       <div className="flex items-center gap-2">
-                        <MapPin className="w-4 h-4 text-[#2c1810]" />
-                        <span className="text-sm font-bold text-[#2c1810]">{event.city || event.location}</span>
+                        <MapPin className="w-4 h-4 text-[#f5f1eb]" />
+                        <span className="text-sm font-bold text-[#f5f1eb]">{event.city || event.location}</span>
                       </div>
                       <span
                         className={`px-2 py-1 rounded-full text-xs flex items-center gap-1 ${getStatusColor(event.status)}`}
@@ -69,9 +69,9 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({ events, onEventSelect,
                     </div>
 
                     <div className="space-y-1">
-                      <p className="text-sm text-[#2c1810] font-bold line-clamp-1">{event.title}</p>
-                      <p className="text-xs text-[#2c1810] italic">Theme: {event.theme}</p>
-                      <p className="text-xs text-[#2c1810] italic">Date: {event.schedule || event.date || "TBD"}</p>
+                      <p className="text-sm text-[#f5f1eb] font-bold line-clamp-1">{event.title}</p>
+                      <p className="text-xs text-[#f5f1eb] italic">Theme: {event.theme}</p>
+                      <p className="text-xs text-[#f5f1eb] italic">Date: {event.schedule || event.date || "TBD"}</p>
                     </div>
                   </div>
                 ))}
@@ -96,6 +96,9 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({ events, onEventSelect,
     </div>
   )
 }
+
+
+
 
 
 
