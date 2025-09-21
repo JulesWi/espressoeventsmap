@@ -385,7 +385,7 @@ const AddEventForm = ({
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full bg-[#fbeee4] text-[#421f17] hover:bg-[#f5f5f0] border border-[#eacaae] mt-2" onClick={() => console.log('Add Event button clicked')}>
+        <Button type="submit" className="w-full bg-[#4a2c2a] text-[#f5f1eb] hover:bg-[#4a2c2a]/80 border-0 mt-2" onClick={() => console.log('Add Event button clicked')}>
           Add Event
         </Button>
       </form>
@@ -798,7 +798,7 @@ function App() {
               size="sm"
               variant="outline"
               onClick={() => setIsSearchExpanded(!isSearchExpanded)}
-              className="bg-[#fbeee4] border-[#eacaae] text-[#421f17] hover:bg-[#f5f5f0]"
+              className="bg-[#4a2c2a] text-[#f5f1eb] hover:bg-[#4a2c2a]/80 border-0"
               aria-label="Toggle Search"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -872,7 +872,7 @@ function App() {
                         size="sm" 
                         variant="outline"
                         onClick={() => setIsSearchExpanded(false)}
-                        className="flex-1 bg-[#4a2c2a] hover:bg-[#4a2c2a]/80 text-[#f5f1eb] border border-[#eacaae] hover:border-[#d4a88a] transition-colors"
+                        className="flex-1 bg-[#4a2c2a] hover:bg-[#4a2c2a]/80 text-[#f5f1eb] border-0 hover:bg-[#4a2c2a]/90 transition-colors"
                       >
                         Cancel
                       </Button>
@@ -889,7 +889,7 @@ function App() {
                 <Button
                   size="sm"
                   variant="outline"
-                  className="bg-[#fbeee4] border-[#eacaae] text-[#421f17] hover:bg-[#f5f5f0]"
+                  className="bg-[#4a2c2a] text-[#f5f1eb] hover:bg-[#4a2c2a]/80 border-0"
                 >
                   <Calendar className="w-4 h-4 mr-1" />
                   Add Event
@@ -907,7 +907,7 @@ function App() {
           <Button
             size="sm"
             variant="outline"
-            className="text-[#f5f1eb] border-[#eacaae] hover:bg-[#f5f1eb]/20 bg-[#4a2c2a]"
+            className="text-[#f5f1eb] bg-[#4a2c2a] hover:bg-[#4a2c2a]/80 border-0"
             onClick={handleLocate}
           >
             <MapPin className="w-4 h-4 mr-1" />
@@ -918,7 +918,7 @@ function App() {
               <Button
                 size="sm"
                 variant="outline"
-                className="text-[#f5f1eb] border-[#eacaae] hover:bg-[#f5f1eb]/20 bg-[#4a2c2a] flex items-center"
+                className="text-[#f5f1eb] bg-[#4a2c2a] hover:bg-[#4a2c2a]/80 border-0 flex items-center"
               >
                 <MapIcon className="w-4 h-4 mr-1" />
                 Switch Map
