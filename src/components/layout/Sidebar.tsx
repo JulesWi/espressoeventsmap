@@ -30,13 +30,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ topics, publications, selected
     : publications
 
   return (
-    <div className="w-full h-full bg-[#4a2c2a] flex flex-col">
+    <div className="w-full h-80  bg-[#421f17] z-2000 flex flex-col">
       <div className="p-4">
         <h2 className="text-lg font-bold text-[#f5f5f0] mb-2 flex items-center gap-2"><ScrollText className="w-5 h-5" />"DETAILS OF EVENTS"</h2>
         <p className="text-sm text-[#e8ddd4]">{selectedEvent ? `Happy to see you at ${selectedEvent.location}` : "Coffee community insights"}</p>
       </div>
 
-      <div className="flex-1 p-4">
+      <div className="flex-1 p-4 ">
         <div className="space-y-4">
           {/* Topics Section */}
           <div className="bg-[#fbeee4] rounded-lg p-3">
@@ -47,7 +47,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ topics, publications, selected
             <div className="space-y-2">
               {filteredTopics.length > 0 ? (
                 filteredTopics.map((topic) => (
-                  <div key={topic.id} className="bg-white/50 rounded p-2">
+                  <div key={topic.id} className="bg-white/50 rounded p-2 hover:bg-[#30150d] transition-colors">
                     <p className="text-sm font-medium text-[#421f17]">{topic.theme}</p>
                     <p className="text-xs text-[#8b7355] mt-1">{topic.description}</p>
                   </div>
@@ -72,7 +72,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ topics, publications, selected
                     href={pub.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block bg-white/50 rounded p-2 hover:bg-white/70 transition-colors"
+                    className="block bg-white/50 rounded p-2 hover:bg-[#30150d] transition-colors"
                   >
                     <p className="text-sm font-medium text-[#421f17]">{pub.title}</p>
                     <p className="text-xs text-[#8b7355]">{pub.type}</p>
@@ -84,7 +84,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ topics, publications, selected
             </div>
           </div>
 
-          <div className="w-full h-64 bg-[#fbeee4] border-2 border-dashed border-[#eacaae] rounded-lg flex flex-col items-center justify-center relative">
+          <div className="w-full h-32 bg-[#fbeee4] border-2 border-dashed border-[#eacaae] rounded-lg flex flex-col items-center justify-center relative">
             <div className="text-6xl mb-4"></div>
             <p className="text-lg font-medium text-[#421f17]">Event Photos</p>
             <p className="text-sm text-[#8b7355] mt-2">Photos will be displayed here</p>
@@ -94,11 +94,5 @@ export const Sidebar: React.FC<SidebarProps> = ({ topics, publications, selected
     </div>
   )
 }
-
-
-
-
-
-
 
 
