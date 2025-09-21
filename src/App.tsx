@@ -16,6 +16,7 @@ import L from 'leaflet';
 import upcomingIcon from './assets/Upcoming+Event.png';
 import ongoingIcon from './assets/Ongoing+Event.png';
 import endedIcon from './assets/Ended+Event.png';
+import logoEspresso from './assets/Logo+Espresso.png';
 
 
 import { Button } from "./components/ui/button"
@@ -1005,8 +1006,8 @@ function App() {
         <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-black/30 to-transparent pointer-events-none z-[5]"></div>
         {/* Logo Espresso dans le coin inférieur gauche */}
         <div className="absolute bottom-4 left-4 z-[10]">
-          <img 
-            src="/177dfa6e-81d8-462a-93e1-59040f268c80/Logo+Espresso.png" 
+          <img
+            src={logoEspresso}
             alt="Espresso Logo" 
             className="w-36 h-20 opacity-80 hover:opacity-100 transition-opacity duration-300"
           />

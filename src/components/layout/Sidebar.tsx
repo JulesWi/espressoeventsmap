@@ -1,4 +1,5 @@
 import React from "react"
+import { MessageCircle, ExternalLink } from "lucide-react"
 
 interface Topic {
   id: string
@@ -37,42 +38,56 @@ export const Sidebar: React.FC<SidebarProps> = ({ topics, publications, selected
 
       <div className="flex-1 p-4">
         <div className="space-y-4">
+          {/* Topics Section */}
+          <div className="bg-[#fbeee4] rounded-lg p-3">
+            <h3 className="font-medium text-[#421f17] mb-2 flex items-center gap-2">
+              <MessageCircle className="w-4 h-4" />
+              Topics to Discuss
+            </h3>
+            <div className="space-y-2">
+              {filteredTopics.length > 0 ? (
+                filteredTopics.map((topic) => (
+                  <div key={topic.id} className="bg-white/50 rounded p-2">
+                    <p className="text-sm font-medium text-[#421f17]">{topic.theme}</p>
+                    <p className="text-xs text-[#8b7355] mt-1">{topic.description}</p>
+                  </div>
+                ))
+              ) : (
+                <p className="text-sm text-[#8b7355]">No topics available yet.</p>
+              )}
+            </div>
+          </div>
+
+          {/* Publications Section */}
+          <div className="bg-[#fbeee4] rounded-lg p-3">
+            <h3 className="font-medium text-[#421f17] mb-2 flex items-center gap-2">
+              <ExternalLink className="w-4 h-4" />
+              Related Publications
+            </h3>
+            <div className="space-y-2">
+              {filteredPublications.length > 0 ? (
+                filteredPublications.map((pub) => (
+                  <a
+                    key={pub.id}
+                    href={pub.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block bg-white/50 rounded p-2 hover:bg-white/70 transition-colors"
+                  >
+                    <p className="text-sm font-medium text-[#421f17]">{pub.title}</p>
+                    <p className="text-xs text-[#8b7355]">{pub.type}</p>
+                  </a>
+                ))
+              ) : (
+                <p className="text-sm text-[#8b7355]">No publications available yet.</p>
+              )}
+            </div>
+          </div>
+
           <div className="w-full h-64 bg-[#fbeee4] border-2 border-dashed border-[#eacaae] rounded-lg flex flex-col items-center justify-center relative">
             <div className="text-6xl mb-4"></div>
             <p className="text-lg font-medium text-[#421f17]">Event Photos</p>
             <p className="text-sm text-[#8b7355] mt-2">Photos will be displayed here</p>
-            
-            {selectedEvent && (
-              <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white p-3 rounded-b-lg">
-                <div className="flex items-center justify-between mb-1">
-                  <h3 className="font-medium text-sm">{selectedEvent.title}</h3>
-                  <span className="text-xs px-2 py-1 rounded-full bg-[#8b4513]">
-                    {selectedEvent.status || "Upcoming"}
-                  </span>
-                </div>
-                <div className="text-xs text-gray-300 space-y-1">
-                  <p>Theme: {selectedEvent.theme}</p>
-                  <p>Location: {selectedEvent.city || selectedEvent.location}</p>
-                  <p>Date: {selectedEvent.schedule || selectedEvent.date || "TBD"}</p>
-                </div>
-                
-                {filteredTopics.length > 0 && (
-                  <div className="mt-2">
-                    <p className="text-xs font-medium mb-1">Topics:</p>
-                    <div className="flex flex-wrap gap-1">
-                      {filteredTopics.slice(0, 2).map((topic) => (
-                        <span key={topic.id} className="text-xs bg-[#8b4513]/50 px-2 py-1 rounded">
-                          {topic.theme}
-                        </span>
-                      ))}
-                      {filteredTopics.length > 2 && (
-                        <span className="text-xs text-gray-400">+{filteredTopics.length - 2} more</span>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
           </div>
         </div>
       </div>
