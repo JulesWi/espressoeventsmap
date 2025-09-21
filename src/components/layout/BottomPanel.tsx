@@ -53,12 +53,12 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({ events, onEventSelect,
                   <div
                     key={event.id}
                     onClick={() => onEventSelect(event)}
-                    className="bg-[#f5f1eb] border border-[#d4a88a] rounded-lg p-3 cursor-pointer hover:bg-[#e8ddd4] transition-colors"
+                    className="bg-[#4a2c2a] border border-[#e8ddd4] rounded-lg p-3 cursor-pointer hover:bg-[#4a2c2a]/80 transition-colors"
                   >
                     <div className="flex items-start justify-between mb-2">
                       <div className="flex items-center gap-2">
-                        <MapPin className="w-4 h-4 text-[#8b4513]" />
-                        <span className="text-sm font-bold text-[#8b4513]">{event.city || event.location}</span>
+                        <MapPin className="w-4 h-4 text-[#f5f1eb]" />
+                        <span className="text-sm font-bold text-[#f5f1eb]">{event.city || event.location}</span>
                       </div>
                       <span
                         className={`px-2 py-1 rounded-full text-xs flex items-center gap-1 ${getStatusColor(event.status)}`}
@@ -69,9 +69,9 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({ events, onEventSelect,
                     </div>
 
                     <div className="space-y-1">
-                      <p className="text-sm text-[#8b4513] font-bold line-clamp-1">{event.title}</p>
-                      <p className="text-xs text-[#8b4513] italic">Theme: {event.theme}</p>
-                      <p className="text-xs text-[#8b4513] italic">Date: {event.schedule || event.date || "TBD"}</p>
+                      <p className="text-sm text-[#f5f1eb] font-bold line-clamp-1">{event.title}</p>
+                      <p className="text-xs text-[#f5f1eb] italic">Theme: {event.theme}</p>
+                      <p className="text-xs text-[#f5f1eb] italic">Date: {event.schedule || event.date || "TBD"}</p>
                     </div>
                   </div>
                 ))}
@@ -96,6 +96,7 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({ events, onEventSelect,
     </div>
   )
 }
+
 
 
 
