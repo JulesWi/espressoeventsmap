@@ -464,21 +464,7 @@ function App() {
   const [mapClickCoordinates, setMapClickCoordinates] = useState<{ lat: number; lng: number } | undefined>()
   const [dialogOpen, setDialogOpen] = useState(false)
 
-  // Mock data for testing sidebar synchronization
-  const mockTopics: Topic[] = [
-    {
-      id: "topic-mock-1",
-      theme: "Coffee Culture in Paris",
-      description: "Exploring the rich coffee culture and traditions in the city of lights",
-      eventId: 1
-    },
-    {
-      id: "topic-mock-2", 
-      theme: "Sustainable Coffee Farming",
-      description: "Discussing eco-friendly practices in coffee production and their impact",
-      eventId: 2
-    }
-  ]
+
 
   const mockPublications: Publication[] = [
     {
@@ -587,8 +573,8 @@ function App() {
         }
       })
 
-      setTopics(generatedTopics.length > 0 ? generatedTopics : mockTopics)
-      setPublications(generatedPublications.length > 0 ? generatedPublications : mockPublications)
+      setTopics(generatedTopics)
+      setPublications(generatedPublications)
     } catch (error) {
       console.error("Error loading events:", error)
     }
@@ -1087,6 +1073,9 @@ function App() {
 }
 
 export default App
+
+
+
 
 
 
