@@ -44,7 +44,7 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({ events, onEventSelect,
         <div className="space-y-4">
           {chunkedEvents.length === 0 ? (
             <div className="text-center py-8">
-              <p className="text-[#e8ddd4]">No events available yet.</p>
+              <p className="text-[#4a2c2a]">No events available yet.</p>
             </div>
           ) : (
             chunkedEvents.map((eventRow, rowIndex) => (
@@ -57,8 +57,8 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({ events, onEventSelect,
                   >
                     <div className="flex items-start justify-between mb-2">
                       <div className="flex items-center gap-2">
-                        <MapPin className="w-4 h-4 text-[#f5f1eb]" />
-                        <span className="text-sm font-bold text-[#f5f1eb]">{event.city || event.location}</span>
+                        <MapPin className="w-4 h-4 text-[#8b4513]" />
+                        <span className="text-sm font-bold text-[#8b4513]">{event.city || event.location}</span>
                       </div>
                       <span
                         className={`px-2 py-1 rounded-full text-xs flex items-center gap-1 ${getStatusColor(event.status)}`}
@@ -69,9 +69,9 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({ events, onEventSelect,
                     </div>
 
                     <div className="space-y-1">
-                      <p className="text-sm text-[#f5f1eb] font-bold line-clamp-1">{event.title}</p>
-                      <p className="text-xs text-[#f5f1eb] italic">Theme: {event.theme}</p>
-                      <p className="text-xs text-[#f5f1eb] italic">Date: {event.schedule || event.date || "TBD"}</p>
+                      <p className="text-sm text-[#8b4513] font-bold line-clamp-1">{event.title}</p>
+                      <p className="text-xs text-[#8b4513] italic">Theme: {event.theme}</p>
+                      <p className="text-xs text-[#8b4513] italic">Date: {event.schedule || event.date || "TBD"}</p>
                     </div>
                   </div>
                 ))}
@@ -82,7 +82,7 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({ events, onEventSelect,
                       key={`empty-${rowIndex}-${emptyIndex}`}
                       className="bg-[#8b4513]/20 border border-[#e8ddd4] rounded-lg p-3 opacity-50"
                     >
-                      <div className="text-center text-[#e8ddd4] text-sm">
+                      <div className="text-center text-[#4a2c2a] text-sm">
                         <Calendar className="w-6 h-6 mx-auto mb-2 opacity-50" />
                         <p>Event slot</p>
                       </div>
@@ -96,6 +96,7 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({ events, onEventSelect,
     </div>
   )
 }
+
 
 
 
