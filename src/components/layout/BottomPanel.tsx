@@ -32,7 +32,7 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({ events, onEventSelect,
   }
 
   return (
-    <div className="h-full bg-[#4a2c2a] flex flex-col">
+    <div className="h-full bg-[#3a1c1a] flex flex-col">
       <div className="p-4 border-b border-[#e8ddd4]">
         <h2 className="text-lg font-bold text-[#f5f5f0] flex items-center gap-2">
           <Calendar className="w-5 h-5 text-[#f5f5f0]" />
@@ -44,7 +44,7 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({ events, onEventSelect,
         <div className="space-y-4">
           {chunkedEvents.length === 0 ? (
             <div className="text-center py-8">
-              <p className="text-[#4a2c2a]">No events available yet.</p>
+              <p className="text-[#f5f1eb]">No events available yet.</p>
             </div>
           ) : (
             chunkedEvents.map((eventRow, rowIndex) => (
@@ -53,7 +53,7 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({ events, onEventSelect,
                   <div
                     key={event.id}
                     onClick={() => onEventSelect(event)}
-                    className="bg-[#4a2c2a] border border-[#e8ddd4] rounded-lg p-3 cursor-pointer hover:bg-[#4a2c2a]/80 transition-colors"
+                    className="bg-[#452b1f] rounded-lg p-3 cursor-pointer hover:bg-[#f5f1eb] transition-colors"
                   >
                     <div className="flex items-start justify-between mb-2">
                       <div className="flex items-center gap-2">
@@ -82,7 +82,7 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({ events, onEventSelect,
                       key={`empty-${rowIndex}-${emptyIndex}`}
                       className="bg-[#8b4513]/20 border border-[#e8ddd4] rounded-lg p-3 opacity-50"
                     >
-                      <div className="text-center text-[#4a2c2a] text-sm">
+                      <div className="text-center text-[#f5f1eb] text-sm">
                         <Calendar className="w-6 h-6 mx-auto mb-2 opacity-50" />
                         <p>Event slot</p>
                       </div>
@@ -96,11 +96,3 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({ events, onEventSelect,
     </div>
   )
 }
-
-
-
-
-
-
-
-
