@@ -464,6 +464,39 @@ function App() {
   const [mapClickCoordinates, setMapClickCoordinates] = useState<{ lat: number; lng: number } | undefined>()
   const [dialogOpen, setDialogOpen] = useState(false)
 
+  // Mock data for testing sidebar synchronization
+  const mockTopics: Topic[] = [
+    {
+      id: "topic-mock-1",
+      theme: "Coffee Culture in Paris",
+      description: "Exploring the rich coffee culture and traditions in the city of lights",
+      eventId: 1
+    },
+    {
+      id: "topic-mock-2", 
+      theme: "Sustainable Coffee Farming",
+      description: "Discussing eco-friendly practices in coffee production and their impact",
+      eventId: 2
+    }
+  ]
+
+  const mockPublications: Publication[] = [
+    {
+      id: "pub-mock-1",
+      title: "The Art of Espresso Making",
+      type: "article",
+      url: "https://example.com/espresso-art",
+      eventId: 1
+    },
+    {
+      id: "pub-mock-2",
+      title: "Coffee Tasting Techniques",
+      type: "medium", 
+      url: "https://medium.com/coffee-tasting",
+      eventId: 2
+    }
+  ]
+
 
   // Handle default event selection
   useEffect(() => {
@@ -520,6 +553,42 @@ function App() {
       }))
 
       setEvents(supabaseEvents)
+
+      // Generate topics and publications from loaded events
+      const generatedTopics: Topic[] = []
+      const generatedPublications: Publication[] = []
+
+      supabaseEvents.forEach((event) => {
+        // Generate topic if event has description
+        if (event.description && event.description.trim()) {
+          generatedTopics.push({
+            id: `topic-${String(event.id)}`,
+            theme: event.title || event.theme,
+            description: event.description,
+            eventId: event.id,
+          })
+        }
+
+        // Generate publication if event has publication link
+        if (event.publicationLink && event.publicationLink.trim()) {
+          const pubType = event.publicationLink.includes('twitter.com')
+            ? 'tweet'
+            : event.publicationLink.includes('medium.com')
+              ? 'medium'
+              : 'article'
+          
+          generatedPublications.push({
+            id: `pub-${String(event.id)}`,
+            type: pubType,
+            title: event.title || event.theme,
+            url: event.publicationLink,
+            eventId: event.id,
+          })
+        }
+      })
+
+      setTopics(generatedTopics.length > 0 ? generatedTopics : mockTopics)
+      setPublications(generatedPublications.length > 0 ? generatedPublications : mockPublications)
     } catch (error) {
       console.error("Error loading events:", error)
     }
@@ -1018,3 +1087,10 @@ function App() {
 }
 
 export default App
+
+
+
+
+
+
+
