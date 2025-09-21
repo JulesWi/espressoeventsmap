@@ -1,5 +1,5 @@
 import React from "react"
-import { MessageCircle, ExternalLink } from "lucide-react"
+import { MessageCircle, ExternalLink, ScrollText } from "lucide-react"
 
 interface Topic {
   id: string
@@ -31,9 +31,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ topics, publications, selected
 
   return (
     <div className="w-full h-full bg-[#4a2c2a] flex flex-col">
-      <div className="p-4 border-b border-[#e8ddd4]">
-        <h2 className="text-lg font-bold text-[#f5f5f0] mb-2">{selectedEvent ? selectedEvent.title || selectedEvent.theme || selectedEvent.location : "Espresso Hub"}</h2>
-        <p className="text-sm text-[#e8ddd4]">{selectedEvent ? `Event details and discussions for ${selectedEvent.location}` : "Coffee community insights"}</p>
+      <div className="p-4">
+        <h2 className="text-lg font-bold text-[#f5f5f0] mb-2">"DETAILS OF EVENTS"</h2>
+        <p className="text-sm text-[#e8ddd4]">{selectedEvent ? `Happy to see you at ${selectedEvent.location}` : "Coffee community insights"}</p>
       </div>
 
       <div className="flex-1 p-4">
@@ -94,4 +94,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ topics, publications, selected
     </div>
   )
 }
+
+
+
+
+
 

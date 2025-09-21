@@ -53,7 +53,7 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({ events, onEventSelect,
                   <div
                     key={event.id}
                     onClick={() => onEventSelect(event)}
-                    className="bg-[#f5f5f0] border border-[#e8ddd4] rounded-lg p-3 cursor-pointer hover:bg-[#e8ddd4] transition-colors"
+                    className="bg-[#fbeee4] border border-[#eacaae] rounded-lg p-3 cursor-pointer hover:bg-[#e8ddd4] transition-colors"
                   >
                     <div className="flex items-start justify-between mb-2">
                       <div className="flex items-center gap-2">
@@ -70,8 +70,8 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({ events, onEventSelect,
 
                     <div className="space-y-1">
                       <p className="text-sm text-[#4a2c2a] font-medium line-clamp-1">{event.title}</p>
-                      <p className="text-xs text-[#8b4513]">Theme: {event.theme}</p>
-                      <p className="text-xs text-[#8b4513]">Date: {event.schedule || event.date || "TBD"}</p>
+                      <p className="text-xs text-[#4a2c2a] italic">Theme: {event.theme}</p>
+                      <p className="text-xs text-[#4a2c2a] italic">Date: {event.schedule || event.date || "TBD"}</p>
                     </div>
                   </div>
                 ))}
@@ -96,3 +96,4 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({ events, onEventSelect,
     </div>
   )
 }
+
