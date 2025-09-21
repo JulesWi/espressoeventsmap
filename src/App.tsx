@@ -104,8 +104,8 @@ const createCoffeeIcon = (status: string) => {
   return new L.Icon({
     iconUrl: icons[status as keyof typeof icons] || icons.ended,
     iconSize: [32, 32],
-    iconAnchor: [16, 32],
-    popupAnchor: [0, -32]
+    iconAnchor: [16, 16],
+    popupAnchor: [0, -16]
   });
 }
 
@@ -1073,6 +1073,7 @@ function App() {
 }
 
 export default App
+
 
 
 
