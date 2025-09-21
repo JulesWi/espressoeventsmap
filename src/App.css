@@ -143,7 +143,7 @@ html, body, #root, .app-container, .main-content, .map-area, .map-container {
 
 /* Left sidebar - 300px width */
 .left-sidebar {
-  width: 400px;
+  width: 350px;
   height: 100%;
   background: #4a2c2a;
   border-right: 2px solid #e8ddd4;
