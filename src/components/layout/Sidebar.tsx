@@ -32,7 +32,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ topics, publications, selected
   return (
     <div className="w-full h-full bg-[#4a2c2a] flex flex-col">
       <div className="p-4">
-        <h2 className="text-lg font-bold text-[#f5f5f0] mb-2">"DETAILS OF EVENTS"</h2>
+        <h2 className="text-lg font-bold text-[#f5f5f0] mb-2 flex items-center gap-2"><ScrollText className="w-5 h-5" />"DETAILS OF EVENTS"</h2>
         <p className="text-sm text-[#e8ddd4]">{selectedEvent ? `Happy to see you at ${selectedEvent.location}` : "Coffee community insights"}</p>
       </div>
 
@@ -94,6 +94,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ topics, publications, selected
     </div>
   )
 }
+
+
 
 
 
