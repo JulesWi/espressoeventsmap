@@ -46,7 +46,7 @@ export function UserMenu() {
           <Button
             size="sm"
             variant="outline"
-            className="text-[#f5f1eb] border-[#f5f1eb] hover:bg-[#f5f1eb]/20 bg-[#4a2c2a]"
+            className="text-[#f5f1eb] bg-[#4a2c2a] hover:bg-[#4a2c2a]/80 border-0"
             onClick={() => openAuthModal("signin")}
           >
             <User className="w-4 h-4 mr-1" />
@@ -71,7 +71,7 @@ export function UserMenu() {
         <Button
           size="sm"
           variant="outline"
-          className="text-[#f5f1eb] border-[#f5f1eb] hover:bg-[#f5f1eb]/20 bg-[#4a2c2a] flex items-center gap-2"
+          className="text-[#f5f1eb] bg-[#4a2c2a] hover:bg-[#4a2c2a]/80 border-0 flex items-center gap-2"
         >
           <User className="w-4 h-4" />
           {profile?.display_name || user.email?.split("@")[0]}
