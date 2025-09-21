@@ -180,7 +180,7 @@ html, body, #root, .app-container, .main-content, .map-area, .map-container {
 
 /* Bottom panel - 250px height */
 .bottom-panel {
-  height: 250px;
+  height: 200px;
   background: #4a2c2a;
   border-top: 2px solid #e8ddd4;
   flex-shrink: 0;
