@@ -101,7 +101,7 @@ const createCoffeeIcon = (status: string) => {
     ongoing: ongoingIcon,
     ended: endedIcon,
   };
-  return new L.Icon({
+  return new L.Icon({    className: 'custom-marker-icon',
     iconUrl: icons[status as keyof typeof icons] || icons.ended,
     iconSize: [32, 32],
     iconAnchor: [16, 16],
@@ -1073,6 +1073,12 @@ function App() {
 }
 
 export default App
+
+
+
+
+
+
 
 
 

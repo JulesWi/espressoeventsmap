@@ -522,13 +522,9 @@ button:active:not(:disabled),
   border-radius: 4px !important;
 }
 
-.map-container .leaflet-marker-icon {
-  transition: transform 0.2s ease !important;
-}
 
-.map-container .leaflet-marker-icon:hover {
-  transform: scale(1.1) !important;
-}
+
+
 .map-container .leaflet-popup-content-wrapper {
   font-family: 'Inter', sans-serif !important;
   font-size: 13px !important;
@@ -568,4 +564,5 @@ button:active:not(:disabled),
   padding: 20px;
   text-align: center;
 }
+
 
