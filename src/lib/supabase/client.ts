@@ -45,6 +45,7 @@ export type Database = {
           event_date: string
           event_type: "upcoming" | "ongoing" | "ended"
           publication_links: any
+          image_url: string | null
           created_by: string | null
           created_at: string
           updated_at: string
@@ -59,6 +60,7 @@ export type Database = {
           event_date: string
           event_type: "upcoming" | "ongoing" | "ended"
           publication_links?: any
+          image_url?: string | null
           created_by?: string | null
           created_at?: string
           updated_at?: string
@@ -73,6 +75,7 @@ export type Database = {
           event_date?: string
           event_type?: "upcoming" | "ongoing" | "ended"
           publication_links?: any
+          image_url?: string | null
           created_by?: string | null
           created_at?: string
           updated_at?: string

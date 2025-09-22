@@ -58,6 +58,7 @@ interface EspressoEvent {
   organizer?: string
   participants?: string
   publicationLink?: string
+  imageUrl?: string | null
 }
 
 interface AddEventFormData {
@@ -71,6 +72,7 @@ interface AddEventFormData {
   status: "upcoming" | "ongoing" | "ended"
   topic: string
   publicationLink: string
+  eventImage: File | null
 }
 
 interface GeocodingResult {
@@ -140,6 +142,7 @@ const AddEventForm = ({
       status: "upcoming",
       topic: "",
       publicationLink: "",
+      eventImage: null,
     },
   })
 
@@ -385,6 +388,30 @@ const AddEventForm = ({
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="eventImage"
+          render={({ field: { onChange, value, ...field } }) => (
+            <FormItem>
+              <FormLabel className="text-sm font-medium text-[#421f17]">Event Image (Optional)</FormLabel>
+              <FormControl>
+                <Input
+                  type="file"
+                  accept="image/*"
+                  className="bg-[#fbeee4] border-[#eacaae] focus:ring-[#eacaae] text-[#421f17] text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#eacaae] file:text-[#421f17] hover:file:bg-[#d4a88a]"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      onChange(file);
+                    }
+                  }}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button type="submit" className="w-full bg-[#4a2c2a] text-[#f5f1eb] hover:bg-[#4a2c2a]/80 border-0 mt-2" onClick={() => console.log('Add Event button clicked')}>
           Add Event
         </Button>
@@ -536,6 +563,7 @@ function App() {
         description: event.description || "",
         organizer: event.profiles?.display_name || event.profiles?.email || "Unknown",
         publicationLink: event.publication_links?.[0]?.url || "",
+        imageUrl: event.image_url,
       }))
 
       setEvents(supabaseEvents)
@@ -692,6 +720,21 @@ function App() {
     }
 
     try {
+      let imageUrl = null
+      if (data.eventImage) {
+        const fileExt = data.eventImage.name.split('.').pop()
+        const fileName = `${user.id}-${Date.now()}.${fileExt}`
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('event-images')
+          .upload(fileName, data.eventImage)
+        if (uploadError) {
+          console.error('Error uploading image:', uploadError)
+          showNotification('Failed to upload image.', 'error')
+          return
+        }
+        imageUrl = supabase.storage.from('event-images').getPublicUrl(fileName).data.publicUrl
+      }
+
       console.log('Inserting event data:', {
         title: data.theme,
         description: data.topic,
@@ -701,6 +744,7 @@ function App() {
         event_date: data.date,
         event_type: data.status,
         publication_links: data.publicationLink ? [{ url: data.publicationLink }] : [],
+        image_url: imageUrl,
         created_by: user.id,
       })
 
@@ -722,6 +766,7 @@ function App() {
           event_date: data.date,
           event_type: data.status,
           publication_links: data.publicationLink ? [{ url: data.publicationLink }] : [],
+          image_url: imageUrl,
           created_by: user.id,
         })
         .select()
@@ -744,10 +789,6 @@ function App() {
 
       console.log('Event saved successfully:', eventData)
 
-      console.log('Event saved successfully:', eventData)
-
-      console.log('Event saved successfully:', eventData)
-
       const newEvent: EspressoEvent = {
         id: eventData.id,
         title: data.theme,
@@ -762,9 +803,11 @@ function App() {
         description: data.topic,
         organizer: profile?.display_name || user.email || "Unknown",
         publicationLink: data.publicationLink,
+        imageUrl: imageUrl,
       }
 
       setEvents((prevEvents) => [...prevEvents, newEvent])
+      setSelectedEvent(newEvent)
 
       if (data.topic) {
         const newTopic: Topic = {
@@ -1073,20 +1116,3 @@ function App() {
 }
 
 export default App
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

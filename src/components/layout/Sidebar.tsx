@@ -84,15 +84,23 @@ export const Sidebar: React.FC<SidebarProps> = ({ topics, publications, selected
             </div>
           </div>
 
-          <div className="w-full h-32 bg-[#fbeee4] border-2 border-dashed border-[#eacaae] rounded-lg flex flex-col items-center justify-center relative">
-            <div className="text-6xl mb-4"></div>
-            <p className="text-lg font-medium text-[#421f17]">Event Photos</p>
-            <p className="text-sm text-[#8b7355] mt-2">Photos will be displayed here</p>
+
+          <div className="w-full bg-[#fbeee4] rounded-lg p-3">
+            <h3 className="font-medium text-[#421f17] mb-2">Event Photos</h3>
+            {selectedEvent?.imageUrl ? (
+              <img
+                src={selectedEvent.imageUrl}
+                alt="Event Photo"
+                className="w-full h-32 object-cover rounded"
+              />
+            ) : (
+              <div className="h-32 border-2 border-dashed border-[#eacaae] rounded-lg flex flex-col items-center justify-center">
+                <p className="text-sm text-[#8b7355]">Photos will be displayed here</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
     </div>
   )
 }
-
-
