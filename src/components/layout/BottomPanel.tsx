@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import { Calendar, MapPin } from "lucide-react"
+import { Calendar, MapPin, Edit, Trash2 } from "lucide-react"
 
 interface Event {
   id: string
@@ -23,9 +23,12 @@ interface BottomPanelProps {
   onEventSelect: (event: Event) => void
   getStatusColor: (status: string) => string
   getStatusIcon: (status: string) => React.ReactNode
+  isContributor: boolean
+  onEditEvent: (event: Event) => void
+  onDeleteEvent: (event: Event) => void
 }
 
-export const BottomPanel: React.FC<BottomPanelProps> = ({ events, onEventSelect, getStatusColor, getStatusIcon }) => {
+export const BottomPanel: React.FC<BottomPanelProps> = ({ events, onEventSelect, getStatusColor, getStatusIcon, isContributor, onEditEvent, onDeleteEvent }) => {
   const chunkedEvents = []
   for (let i = 0; i < events.length; i += 3) {
     chunkedEvents.push(events.slice(i, i + 3))
@@ -63,8 +66,33 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({ events, onEventSelect,
                       <span
                         className={`px-2 py-1 rounded-full text-xs flex items-center gap-1 ${getStatusColor(event.status)}`}
                       >
-                        {getStatusIcon(event.status)}
-                        {event.status.charAt(0).toUpperCase() + event.status.slice(1)}
+                        {isContributor ? (
+                          <>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                onEditEvent(event)
+                              }}
+                              className="hover:opacity-80"
+                            >
+                              <Edit className="w-3 h-3" />
+                            </button>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                onDeleteEvent(event)
+                              }}
+                              className="hover:opacity-80"
+                            >
+                              <Trash2 className="w-3 h-3" />
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            {getStatusIcon(event.status)}
+                            {event.status.charAt(0).toUpperCase() + event.status.slice(1)}
+                          </>
+                        )}
                       </span>
                     </div>
 

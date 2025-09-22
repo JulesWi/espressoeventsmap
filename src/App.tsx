@@ -126,12 +126,28 @@ const geocodeLocation = async (query: string): Promise<GeocodingResult[]> => {
 const AddEventForm = ({
   onSubmit,
   mapCoordinates,
+  event,
+  mode,
 }: {
-  onSubmit: (data: AddEventFormData) => void
+  onSubmit: (data: AddEventFormData, mode: 'add' | 'edit', eventId?: string) => void
   mapCoordinates?: { lat: number; lng: number }
+  event?: EspressoEvent
+  mode: 'add' | 'edit'
 }) => {
   const form = useForm<AddEventFormData>({
-    defaultValues: {
+    defaultValues: event ? {
+      theme: event.title || "",
+      location: event.location || "",
+      organizer: event.organizer || "",
+      latitude: event.coordinates[0].toString() || "",
+      longitude: event.coordinates[1].toString() || "",
+      date: event.date || "",
+      guests: event.guests.join(", ") || "",
+      status: event.status,
+      topic: event.description || "",
+      publicationLink: event.publicationLink || "",
+      eventImage: null,
+    } : {
       theme: "",
       location: "",
       organizer: "",
@@ -181,7 +197,7 @@ const AddEventForm = ({
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit((data) => onSubmit(data, mode, event?.id))}
         className="space-y-2 max-h-[60vh] overflow-y-auto px-1"
         autoComplete="off"
       >
@@ -490,6 +506,7 @@ function App() {
   const [notification, setNotification] = useState<{ message: string; type: "success" | "error" | "info" } | null>(null)
   const [mapClickCoordinates, setMapClickCoordinates] = useState<{ lat: number; lng: number } | undefined>()
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [editDialogOpen, setEditDialogOpen] = useState(false)
 
 
 
@@ -499,14 +516,16 @@ function App() {
       title: "The Art of Espresso Making",
       type: "article",
       url: "https://example.com/espresso-art",
-      eventId: 1
+      preview: "Article about espresso",
+      eventId: "1"
     },
     {
       id: "pub-mock-2",
       title: "Coffee Tasting Techniques",
       type: "medium", 
       url: "https://medium.com/coffee-tasting",
-      eventId: 2
+      preview: "Medium article on tasting",
+      eventId: "2"
     }
   ]
 
@@ -707,8 +726,8 @@ function App() {
     // showNotification(`Coordinates selected: ${lat.toFixed(6)}, ${lng.toFixed(6)}`, "info")
   }
 
-  const handleAddEvent = async (data: AddEventFormData) => {
-    console.log('handleAddEvent called with data:', data)
+const handleSubmitEvent = async (data: AddEventFormData, mode: 'add' | 'edit', eventId?: string) => {
+    console.log('handleSubmitEvent called with data:', data, 'mode:', mode, 'eventId:', eventId)
     if (!isContributor) {
       showNotification("Only contributors can add events. Please sign up as a contributor.", "error")
       return
@@ -735,29 +754,8 @@ function App() {
         imageUrl = supabase.storage.from('event-images').getPublicUrl(fileName).data.publicUrl
       }
 
-      console.log('Inserting event data:', {
-        title: data.theme,
-        description: data.topic,
-        location: data.location,
-        latitude: Number.parseFloat(data.latitude),
-        longitude: Number.parseFloat(data.longitude),
-        event_date: data.date,
-        event_type: data.status,
-        publication_links: data.publicationLink ? [{ url: data.publicationLink }] : [],
-        image_url: imageUrl,
-        created_by: user.id,
-      })
-
-      console.log('About to call supabase.insert...')
-      
-      // Test de connexion Supabase
-      console.log('Testing Supabase connection...')
-      const { data: testData, error: testError } = await supabase.from('events').select('id').limit(1)
-      console.log('Supabase connection test:', { testData, testError })
-      
-      const { data: eventData, error } = await supabase
-        .from("events")
-        .insert({
+      if (mode === 'add') {
+        console.log('Inserting event data:', {
           title: data.theme,
           description: data.topic,
           location: data.location,
@@ -769,81 +767,226 @@ function App() {
           image_url: imageUrl,
           created_by: user.id,
         })
-        .select()
-        .single()
 
-      console.log('Supabase call completed')
-      console.log('Supabase insert result:', { eventData, error })
+        console.log('About to call supabase.insert...')
+        
+        // Test de connexion Supabase
+        console.log('Testing Supabase connection...')
+        const { data: testData, error: testError } = await supabase.from('events').select('id').limit(1)
+        console.log('Supabase connection test:', { testData, testError })
+        
+        const { data: eventData, error } = await supabase
+          .from("events")
+          .insert({
+            title: data.theme,
+            description: data.topic,
+            location: data.location,
+            latitude: Number.parseFloat(data.latitude),
+            longitude: Number.parseFloat(data.longitude),
+            event_date: data.date,
+            event_type: data.status,
+            publication_links: data.publicationLink ? [{ url: data.publicationLink }] : [],
+            image_url: imageUrl,
+            created_by: user.id,
+          })
+          .select()
+          .single()
+
+        console.log('Supabase call completed')
+        console.log('Supabase insert result:', { eventData, error })
+
+        if (error) {
+          console.error("Error saving event:", error)
+          console.error("Error details:", {
+            message: error.message,
+            details: error.details,
+            hint: error.hint,
+            code: error.code
+          })
+          showNotification("Failed to save event. Please try again.", "error")
+          return
+        }
+
+        console.log('Event saved successfully:', eventData)
+
+        const newEvent: EspressoEvent = {
+          id: eventData.id,
+          title: data.theme,
+          theme: data.theme,
+          location: data.location,
+          city: data.location.split(",")[0] || data.location,
+          coordinates: [Number.parseFloat(data.latitude), Number.parseFloat(data.longitude)],
+          status: data.status,
+          schedule: data.date,
+          guests: data.guests.split(",").map((g) => g.trim()),
+          host: profile?.display_name || user.email || "Unknown",
+          description: data.topic,
+          organizer: profile?.display_name || user.email || "Unknown",
+          publicationLink: data.publicationLink,
+          imageUrl: imageUrl,
+        }
+
+        setEvents((prevEvents) => [...prevEvents, newEvent])
+        setSelectedEvent(newEvent)
+
+        if (data.topic) {
+          const newTopic: Topic = {
+            id: `topic-${Date.now()}`,
+            theme: data.theme,
+            description: data.topic,
+            eventId: newEvent.id,
+          }
+          setTopics([...topics, newTopic])
+        }
+
+        if (data.publicationLink) {
+          const pubType = data.publicationLink.includes("twitter.com")
+            ? "tweet"
+            : data.publicationLink.includes("medium.com")
+              ? "medium"
+              : "article"
+          const newPublication: Publication = {
+            id: `pub-${Date.now()}`,
+            type: pubType,
+            title: data.theme,
+            url: data.publicationLink,
+            preview: `Event: ${data.theme}`,
+            eventId: newEvent.id,
+          }
+          setPublications([...publications, newPublication])
+        }
+
+        showNotification("Event added successfully!", "success")
+        setDialogOpen(false)
+        setMapCenter(newEvent.coordinates)
+        setMapZoom(12)
+      } else if (mode === 'edit' && eventId) {
+        // Handle edit
+        const { data: updateData, error: updateError } = await supabase
+          .from("events")
+          .update({
+            title: data.theme,
+            description: data.topic,
+            location: data.location,
+            latitude: Number.parseFloat(data.latitude),
+            longitude: Number.parseFloat(data.longitude),
+            event_date: data.date,
+            event_type: data.status,
+            publication_links: data.publicationLink ? [{ url: data.publicationLink }] : [],
+            image_url: imageUrl || undefined, // Only update if new image
+          })
+          .eq('id', eventId)
+          .select()
+          .single()
+
+        if (updateError) {
+          console.error("Error updating event:", updateError)
+          showNotification("Failed to update event. Please try again.", "error")
+          return
+        }
+
+        const updatedEvent: EspressoEvent = {
+          id: updateData.id,
+          title: data.theme,
+          theme: data.theme,
+          location: data.location,
+          city: data.location.split(",")[0] || data.location,
+          coordinates: [Number.parseFloat(data.latitude), Number.parseFloat(data.longitude)],
+          status: data.status,
+          schedule: data.date,
+          guests: data.guests.split(",").map((g) => g.trim()),
+          host: profile?.display_name || user.email || "Unknown",
+          description: data.topic,
+          organizer: profile?.display_name || user.email || "Unknown",
+          publicationLink: data.publicationLink,
+          imageUrl: imageUrl || selectedEvent?.imageUrl,
+        }
+
+        setEvents((prevEvents) => prevEvents.map(e => e.id === eventId ? updatedEvent : e))
+        setSelectedEvent(updatedEvent)
+
+        // Update topics and publications if changed
+        // For simplicity, regenerate them
+        const updatedTopics = topics.filter(t => t.eventId !== eventId)
+        const updatedPublications = publications.filter(p => p.eventId !== eventId)
+
+        if (data.topic) {
+          updatedTopics.push({
+            id: `topic-${eventId}`,
+            theme: data.theme,
+            description: data.topic,
+            eventId: eventId,
+          })
+        }
+
+        if (data.publicationLink) {
+          const pubType = data.publicationLink.includes("twitter.com")
+            ? "tweet"
+            : data.publicationLink.includes("medium.com")
+              ? "medium"
+              : "article"
+          updatedPublications.push({
+            id: `pub-${eventId}`,
+            type: pubType,
+            title: data.theme,
+            url: data.publicationLink,
+            preview: `Event: ${data.theme}`,
+            eventId: eventId,
+          })
+        }
+
+        setTopics(updatedTopics)
+        setPublications(updatedPublications)
+
+        showNotification("Event updated successfully!", "success")
+        setEditDialogOpen(false)
+      }
+    } catch (error) {
+      console.error("Error submitting event:", error)
+      showNotification("Failed to submit event. Please try again.", "error")
+    }
+  }
+
+  const handleDeleteEvent = async (event: EspressoEvent) => {
+    if (!isContributor) {
+      showNotification("Only contributors can delete events.", "error")
+      return
+    }
+
+    if (!confirm(`Are you sure you want to delete the event "${event.title}"?`)) {
+      return
+    }
+
+    try {
+      const { error } = await supabase
+        .from("events")
+        .delete()
+        .eq('id', event.id)
 
       if (error) {
-        console.error("Error saving event:", error)
-        console.error("Error details:", {
-          message: error.message,
-          details: error.details,
-          hint: error.hint,
-          code: error.code
-        })
-        showNotification("Failed to save event. Please try again.", "error")
+        console.error("Error deleting event:", error)
+        showNotification("Failed to delete event. Please try again.", "error")
         return
       }
 
-      console.log('Event saved successfully:', eventData)
+      setEvents((prevEvents) => prevEvents.filter(e => e.id !== event.id))
+      setTopics((prevTopics) => prevTopics.filter(t => t.eventId !== event.id))
+      setPublications((prevPublications) => prevPublications.filter(p => p.eventId !== event.id))
 
-      const newEvent: EspressoEvent = {
-        id: eventData.id,
-        title: data.theme,
-        theme: data.theme,
-        location: data.location,
-        city: data.location.split(",")[0] || data.location,
-        coordinates: [Number.parseFloat(data.latitude), Number.parseFloat(data.longitude)],
-        status: data.status,
-        schedule: data.date,
-        guests: data.guests.split(",").map((g) => g.trim()),
-        host: profile?.display_name || user.email || "Unknown",
-        description: data.topic,
-        organizer: profile?.display_name || user.email || "Unknown",
-        publicationLink: data.publicationLink,
-        imageUrl: imageUrl,
+      if (selectedEvent?.id === event.id) {
+        setSelectedEvent(null)
       }
 
-      setEvents((prevEvents) => [...prevEvents, newEvent])
-      setSelectedEvent(newEvent)
-
-      if (data.topic) {
-        const newTopic: Topic = {
-          id: `topic-${Date.now()}`,
-          theme: data.theme,
-          description: data.topic,
-          eventId: newEvent.id,
-        }
-        setTopics([...topics, newTopic])
-      }
-
-      if (data.publicationLink) {
-        const pubType = data.publicationLink.includes("twitter.com")
-          ? "tweet"
-          : data.publicationLink.includes("medium.com")
-            ? "medium"
-            : "article"
-        const newPublication: Publication = {
-          id: `pub-${Date.now()}`,
-          type: pubType,
-          title: data.theme,
-          url: data.publicationLink,
-          preview: `Event: ${data.theme}`,
-          eventId: newEvent.id,
-        }
-        setPublications([...publications, newPublication])
-      }
-
-      showNotification("Event added successfully!", "success")
-      setDialogOpen(false)
-      setMapCenter(newEvent.coordinates)
-      setMapZoom(12)
+      showNotification("Event deleted successfully!", "success")
     } catch (error) {
-      console.error("Error adding event:", error)
-      showNotification("Failed to add event. Please try again.", "error")
+      console.error("Error deleting event:", error)
+      showNotification("Failed to delete event. Please try again.", "error")
     }
+  }
+
+  const handleEditEvent = (event: EspressoEvent) => {
+    setSelectedEvent(event)
+    setEditDialogOpen(true)
   }
 
   const getStatusColor = (status: string) => {
@@ -881,6 +1024,9 @@ function App() {
       onEventSelect={handleEventSelect}
       getStatusColor={getStatusColor}
       getStatusIcon={getStatusIcon}
+      isContributor={isContributor}
+      onEditEvent={handleEditEvent}
+      onDeleteEvent={handleDeleteEvent}
     >
       {notification && (
         <Notification message={notification.message} type={notification.type} onClose={() => setNotification(null)} />
@@ -997,7 +1143,22 @@ function App() {
                 <DialogHeader>
                   <DialogTitle className="text-[#421f17]">Add Espresso Event</DialogTitle>
                 </DialogHeader>
-                <AddEventForm onSubmit={handleAddEvent} mapCoordinates={mapClickCoordinates} />
+                <AddEventForm onSubmit={handleSubmitEvent} mapCoordinates={mapClickCoordinates} mode="add" />
+              </DialogContent>
+            </Dialog>
+          )}
+
+          {isContributor && (
+            <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
+              <DialogContent className="max-w-md w-full dialog-overlay max-h-[85vh] bg-[#fbeee4]" style={{ zIndex: 2000 }}>
+                <DialogHeader>
+                  <DialogTitle className="text-[#421f17]">Edit Espresso Event</DialogTitle>
+                </DialogHeader>
+                <AddEventForm
+                  onSubmit={handleSubmitEvent}
+                  event={selectedEvent}
+                  mode="edit"
+                />
               </DialogContent>
             </Dialog>
           )}

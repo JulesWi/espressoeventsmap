@@ -11,6 +11,9 @@ interface MainLayoutProps {
   onEventSelect: (event: any) => void
   getStatusColor: (status: string) => string
   getStatusIcon: (status: string) => React.ReactNode
+  isContributor: boolean
+  onEditEvent: (event: any) => void
+  onDeleteEvent: (event: any) => void
 }
 
 export const MainLayout: React.FC<MainLayoutProps> = ({
@@ -22,6 +25,9 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
   onEventSelect,
   getStatusColor,
   getStatusIcon,
+  isContributor,
+  onEditEvent,
+  onDeleteEvent,
 }) => {
   return (
     <div className="app-container">
@@ -41,6 +47,9 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
           onEventSelect={onEventSelect}
           getStatusColor={getStatusColor}
           getStatusIcon={getStatusIcon}
+          isContributor={isContributor}
+          onEditEvent={onEditEvent}
+          onDeleteEvent={onDeleteEvent}
         />
       </div>
     </div>
