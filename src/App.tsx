@@ -21,7 +21,7 @@ import logoEspresso from './assets/Logo+Espresso.png';
 
 import { Button } from "./components/ui/button"
 import { Input } from "./components/ui/input"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription, DialogFooter } from "./components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./components/ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./components/ui/select"
 import { Textarea } from "./components/ui/textarea"
@@ -507,6 +507,8 @@ function App() {
   const [mapClickCoordinates, setMapClickCoordinates] = useState<{ lat: number; lng: number } | undefined>()
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editDialogOpen, setEditDialogOpen] = useState(false)
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const [eventToDelete, setEventToDelete] = useState<EspressoEvent | null>(null)
 
 
 
@@ -947,21 +949,19 @@ const handleSubmitEvent = async (data: AddEventFormData, mode: 'add' | 'edit', e
     }
   }
 
-  const handleDeleteEvent = async (event: EspressoEvent) => {
-    if (!isContributor) {
-      showNotification("Only contributors can delete events.", "error")
-      return
-    }
+  const handleDeleteEvent = (event: EspressoEvent) => {
+    setEventToDelete(event)
+    setDeleteDialogOpen(true)
+  }
 
-    if (!confirm(`Are you sure you want to delete the event "${event.title}"?`)) {
-      return
-    }
+  const confirmDeleteEvent = async () => {
+    if (!eventToDelete) return
 
     try {
       const { error } = await supabase
         .from("events")
         .delete()
-        .eq('id', event.id)
+        .eq('id', eventToDelete.id)
 
       if (error) {
         console.error("Error deleting event:", error)
@@ -969,15 +969,17 @@ const handleSubmitEvent = async (data: AddEventFormData, mode: 'add' | 'edit', e
         return
       }
 
-      setEvents((prevEvents) => prevEvents.filter(e => e.id !== event.id))
-      setTopics((prevTopics) => prevTopics.filter(t => t.eventId !== event.id))
-      setPublications((prevPublications) => prevPublications.filter(p => p.eventId !== event.id))
+      setEvents((prevEvents) => prevEvents.filter(e => e.id !== eventToDelete.id))
+      setTopics((prevTopics) => prevTopics.filter(t => t.eventId !== eventToDelete.id))
+      setPublications((prevPublications) => prevPublications.filter(p => p.eventId !== eventToDelete.id))
 
-      if (selectedEvent?.id === event.id) {
+      if (selectedEvent?.id === eventToDelete.id) {
         setSelectedEvent(null)
       }
 
       showNotification("Event deleted successfully!", "success")
+      setDeleteDialogOpen(false)
+      setEventToDelete(null)
     } catch (error) {
       console.error("Error deleting event:", error)
       showNotification("Failed to delete event. Please try again.", "error")
@@ -1159,6 +1161,34 @@ const handleSubmitEvent = async (data: AddEventFormData, mode: 'add' | 'edit', e
                   event={selectedEvent}
                   mode="edit"
                 />
+              </DialogContent>
+            </Dialog>
+          )}
+
+          {isContributor && (
+            <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+              <DialogContent className="max-w-md w-full dialog-overlay bg-[#fbeee4]" style={{ zIndex: 2000 }}>
+                <DialogHeader>
+                  <DialogTitle className="text-[#421f17]">Delete Event</DialogTitle>
+                  <DialogDescription className="text-[#8b7355]">
+                    Are you sure you want to delete the event "{eventToDelete?.title}"? This action cannot be undone.
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogFooter className="gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => setDeleteDialogOpen(false)}
+                    className="bg-[#fbeee4] border-[#eacaae] text-[#421f17] hover:bg-[#eacaae]"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={confirmDeleteEvent}
+                    className="bg-red-600 text-white hover:bg-red-700"
+                  >
+                    Delete
+                  </Button>
+                </DialogFooter>
               </DialogContent>
             </Dialog>
           )}

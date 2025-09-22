@@ -73,18 +73,20 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({ events, onEventSelect,
                                 e.stopPropagation()
                                 onEditEvent(event)
                               }}
-                              className="hover:opacity-80"
+                              className="w-3 h-3 text-[#421f17] hover:text-[#d4a88a] transition-colors"
+                              title="Edit Event"
                             >
-                              <Edit className="w-3 h-3" />
+                              <Edit className="w-full h-full" />
                             </button>
                             <button
                               onClick={(e) => {
                                 e.stopPropagation()
                                 onDeleteEvent(event)
                               }}
-                              className="hover:opacity-80"
+                              className="w-3 h-3 text-[#421f17] hover:text-red-600 transition-colors"
+                              title="Delete Event"
                             >
-                              <Trash2 className="w-3 h-3" />
+                              <Trash2 className="w-full h-full" />
                             </button>
                           </>
                         ) : (
