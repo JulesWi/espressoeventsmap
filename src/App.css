@@ -141,9 +141,9 @@ html, body, #root, .app-container, .main-content, .map-area, .map-container {
   height: 100% !important;
 }
 
-/* Left sidebar - 280px width */
+/* Left sidebar - 320px width */
 .left-sidebar {
-  width: 280px;
+  width: 320px;
   height: 70vh; /* Réduit la hauteur pour adaptabilité avec overflow auto */
   background: #421f17;
   flex-shrink: 0;
@@ -299,21 +299,23 @@ html, body, #root, .app-container, .main-content, .map-area, .map-container {
   filter: blur(8px);
 }
 
+
+
 /* Status colors using coffee theme palette */
 .status-upcoming {
-  background-color: rgba(139, 69, 19, 0.2);
+  background-color: transparent;
   color: #8b4513;
   border: none;
 }
 
 .status-ongoing {
-  background-color: rgba(74, 44, 42, 0.2);
+  background-color: transparent;
   color: #4a2c2a;
   border: none;
 }
 
 .status-ended {
-  background-color: rgba(232, 221, 212, 0.3);
+  background-color: transparent;
   color: #8b4513;
   border: none;
 }
@@ -464,8 +466,7 @@ button:hover:not(:disabled),
 .btn:hover:not(:disabled),
 .Button:hover:not(:disabled),
 .TabsTrigger:hover,
-.bg-white/50:hover,
-[any hover selector]:hover {
+.bg-white/50:hover {
   background-color: #30150d !important;
   color: #f5f1eb !important;
   transition: background-color 0.3s ease;

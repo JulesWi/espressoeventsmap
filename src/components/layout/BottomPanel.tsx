@@ -73,7 +73,7 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({ events, onEventSelect,
                                 e.stopPropagation()
                                 onEditEvent(event)
                               }}
-                              className="w-3 h-3 text-[#421f17] hover:text-[#d4a88a] transition-colors"
+                              className="w-3 h-3 text-green-600 hover:text-green-400 transition-colors bg-transparent border-none"
                               title="Edit Event"
                             >
                               <Edit className="w-full h-full" />
@@ -83,7 +83,7 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({ events, onEventSelect,
                                 e.stopPropagation()
                                 onDeleteEvent(event)
                               }}
-                              className="w-3 h-3 text-[#421f17] hover:text-red-600 transition-colors"
+                              className="w-3 h-3 text-red-600 hover:text-red-400 transition-colors bg-transparent border-none"
                               title="Delete Event"
                             >
                               <Trash2 className="w-full h-full" />
